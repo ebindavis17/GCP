@@ -10,8 +10,17 @@ $gcloud compute machine-types list
 Use the instances stop command and specify one or more instances that you want to stop.
 $gcloud compute instances stop example-instance-1 example-instance-2
 
+To permanently delete the VM instance 
+$gcloud compute instances delete example-instance
+
 Optionally, you can stop an instance through the guest operating system using the sudo shutdown -h now or sudo poweroff commands. 
 Execute one of these commands while you are logged into the virtual machine:
 $sudo shutdown -h now
 $sudo poweroff
+
+To change the machine type of the running instance
+#Stop the running instance -$11
+$gcloud compute instances set-machine-type INSTANCE --machine-type MACHINE-TYPE
+#A custom machine type with 4 vCPUs and 1 GB of memory can be specified as:
+--machine-type custom-4-1024
 
