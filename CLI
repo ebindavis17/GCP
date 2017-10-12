@@ -24,3 +24,8 @@ $gcloud compute instances set-machine-type INSTANCE --machine-type MACHINE-TYPE
 #A custom machine type with 4 vCPUs and 1 GB of memory can be specified as:
 --machine-type custom-4-1024
 
+
+Standard output format 
+$gcloud compute instances list --format json
+Format must be one of config, csv, default, diff, disable, flattened, get, json, list, multi, none, object, 
+table, text, value, yaml
