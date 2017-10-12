@@ -1,8 +1,11 @@
-To list the machine types 
-$gcloud compute machine-types list
-
 To list the instances running
 $gcloud compute instances list
+
+To list all the details about the instance
+$gcloud compute instances describe “instance name”
+
+To list the machine types 
+$gcloud compute machine-types list
 
 Use the instances stop command and specify one or more instances that you want to stop.
 $gcloud compute instances stop example-instance-1 example-instance-2
@@ -10,5 +13,5 @@ $gcloud compute instances stop example-instance-1 example-instance-2
 Optionally, you can stop an instance through the guest operating system using the sudo shutdown -h now or sudo poweroff commands. 
 Execute one of these commands while you are logged into the virtual machine:
 $sudo shutdown -h now
-
 $sudo poweroff
+
