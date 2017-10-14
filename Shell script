@@ -1,0 +1,39 @@
+#!/bin/bash
+
+echo "------Listing the Project info------- "
+gcloud projects list
+
+#echo -n "Enter the ProjectID: "
+#read proid
+
+#echo "ProjectId:  $proid"
+
+echo " ----Listing the Vm machines------"
+
+gcloud compute instances list
+
+echo -n " select the instance to change the machine type:"
+read vmname
+
+echo "listing the machine type"
+
+gcloud compute machine-types list
+echo -n " select the machine type you want to change:"
+read mtype
+
+echo "Stopping the instance "
+gcloud compute instances stop $vmname
+
+echo " VM instance $vmname stopped !!!"
+
+echo "changing the machine type of $vmname to $mtype"
+gcloud compute instances set-machine-type $vmname --machine-type $mtype
+
+echo "changed the machine type....."
+echo " restarting the machine...."
+gcloud compute instances start $vmname
+
+echo " check....."
+gcloud compute instances list
+
+                                                                                                   1,1           Top
