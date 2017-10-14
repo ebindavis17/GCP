@@ -7,6 +7,9 @@ $gcloud compute instances describe “instance name”
 To list the machine types 
 $gcloud compute machine-types list
 
+To list the machine type of the instances in the project 
+$gcloud compute instances list --format="value(MACHINE_TYPE)"
+
 Use the instances stop command and specify one or more instances that you want to stop.
 $gcloud compute instances stop example-instance-1 example-instance-2
 
