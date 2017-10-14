@@ -32,3 +32,12 @@ Standard output format
 $gcloud compute instances list --format json
 Format must be one of config, csv, default, diff, disable, flattened, get, json, list, multi, none, object, 
 table, text, value, yaml
+
+Lists all the currently running projects in your account:
+$gcloud config configurations list
+
+With following command we can see current project settings on local computer.
+$gcloud config list
+
+list of all existing configurations on our computer with command:
+$gcloud config configurations list
