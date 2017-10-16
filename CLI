@@ -34,6 +34,7 @@ Format must be one of config, csv, default, diff, disable, flattened, get, json,
 table, text, value, yaml
 
 Lists all the currently running projects in your account:
+$ gcloud projects list
 $gcloud config configurations list
 
 With following command we can see current project settings on local computer.
@@ -41,3 +42,7 @@ $gcloud config list
 
 list of all existing configurations on our computer with command:
 $gcloud config configurations list
+
+To change the currently running project:
+$gcloud config set project <project ID >
+
