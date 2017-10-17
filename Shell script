@@ -35,5 +35,38 @@ gcloud compute instances start $vmname
 
 echo " check....."
 gcloud compute instances list
+-----------------------------------------------------------
+#!/bin/bash
+#!/bin/bash
+
+proj_list=$(gcloud projects list)
+curr_proj=$(gcloud config configurations list --format="value(PROJECT)")
+list_inst=$(gcloud compute instances list )
+
+echo " Currently running projects :\n $proj_list"
+echo " "
+echo "Current Project : \n $curr_proj"
+echo " "
+
+read -p "Do you want to change the Project? [Y/N] :" answer
+
+if [ $answer = Y ] || [ $answer = y ]
+then
+        read -p " Enter the ProjectId which you want to change :" pid
+        echo " Changing the ProjectId $curr_proj to $pid"
+        echo "$(gcloud config set project $pid)"
+        echo "Set project to $pid "
+
+        echo "Listing the instances in $pid"
+        echo ""
+        echo "$list_inst"
+
+elif    [ $answer = N ] || [ $answer = n ]
+then
+        echo " No change in Project ...."
+        fi
+
+echo "Listing the instances
+
 
                                                                                                    1,1           Top
