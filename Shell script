@@ -1,72 +1,64 @@
 #!/bin/bash
 
-echo "------Listing the Project info------- "
-gcloud projects list
-
-#echo -n "Enter the ProjectID: "
-#read proid
-
-#echo "ProjectId:  $proid"
-
-echo " ----Listing the Vm machines------"
-
-gcloud compute instances list
-
-echo -n " select the instance to change the machine type:"
-read vmname
-
-echo "listing the machine type"
-
-gcloud compute machine-types list
-echo -n " select the machine type you want to change:"
-read mtype
-
-echo "Stopping the instance "
-gcloud compute instances stop $vmname
-
-echo " VM instance $vmname stopped !!!"
-
-echo "changing the machine type of $vmname to $mtype"
-gcloud compute instances set-machine-type $vmname --machine-type $mtype
-
-echo "changed the machine type....."
-echo " restarting the machine...."
-gcloud compute instances start $vmname
-
-echo " check....."
-gcloud compute instances list
------------------------------------------------------------
-#!/bin/bash
-#!/bin/bash
-
 proj_list=$(gcloud projects list)
 curr_proj=$(gcloud config configurations list --format="value(PROJECT)")
-list_inst=$(gcloud compute instances list )
+curr_mach=$(gcloud compute instances list --format="value(MACHINE_TYPE)")
 
-echo " Currently running projects :\n $proj_list"
-echo " "
-echo "Current Project : \n $curr_proj"
-echo " "
-
-read -p "Do you want to change the Project? [Y/N] :" answer
-
+echo "Running Projects :" ; echo " $proj_list" ; echo " " ; sleep 2
+echo "Current Project :" ; echo " $curr_proj" ; echo " " ;  sleep 2
+read -p "Do you want to change the current project [Y/N] : " answer
 if [ $answer = Y ] || [ $answer = y ]
 then
-        read -p " Enter the ProjectId which you want to change :" pid
-        echo " Changing the ProjectId $curr_proj to $pid"
-        echo "$(gcloud config set project $pid)"
-        echo "Set project to $pid "
+        read -p "Enter the ProjectId which you want to change : " proid
 
-        echo "Listing the instances in $pid"
-        echo ""
-        echo "$list_inst"
+        for proj in $(gcloud projects list --format="value(PROJECT_ID)")
+        do
+                if [[ "$proid" == "$proj" ]]
+                then
+                        echo " " ; echo "Project $proid is present "
+                fi
+        done
+                echo " $(gcloud config set project $proid)"
+                echo " " ; echo " Project changed to $proid "
 
-elif    [ $answer = N ] || [ $answer = n ]
+elif [ $answer = N ] || [ $answer = n ]
 then
-        echo " No change in Project ...."
+        echo "No change in Project"
+fi
+echo "VM instances available on your project "
+echo "$(gcloud compute instances list )"
+read -p "Your default Zone : " zone
+echo  "Available Machine Types in $zone ..."
+echo "$(gcloud compute machine-types list --filter="zone: $zone " --format=value"(NAME,$zone)")"
+
+read -p "Which VM instance you want to make changes : " inst
+
+for instance in $(gcloud compute instances list --format="value(NAME)")
+do
+
+        if [[ "$inst" == "$instance" ]]
+        then
+                echo " $inst found "
+                curr_mach=$(gcloud compute instances list --filter="NAME:$inst" --format="value(MACHINE_TYPE)")
+                echo "Current machine type of $inst : $curr_mach"
         fi
+done
 
-echo "Listing the instances
-
+read -p "Enter the machine type which you want to change :" mtype
+for machtype in $(gcloud compute machine-types list --filter="zone: $zone " --format=value"(NAME,$zone)")
+do
+    if [[ "$mtype" == "$machtype" ]]
+    then
+        inst_zone=$(gcloud compute instances list --filter="NAME:$inst" --format="value(ZONE)")
+        chang_zone=$(gcloud config set compute/zone $inst_zone)
+        echo "$(gcloud  compute instances stop $inst)"
+        echo " Changing $curr_mach to $mtype "
+        echo "$(gcloud compute instances set-machine-type $inst --machine-type $mtype)"
+        echo "$(gcloud compute instances start $inst)"
+        echo "Current machine type is : $curr_mach "
+        echo "Listing the instances once again "
+        echo "$(gcloud compute instances list )"
+    fi
+done
 
                                                                                                    1,1           Top
